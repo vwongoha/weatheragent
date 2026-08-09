@@ -1,0 +1,19 @@
+# Databricks App Configuration for Weather MCP Server
+
+# Command to start the app
+command:
+  - "python"
+  - "app.py"
+
+# Environment configuration
+env:
+  - name: PORT
+    value: "8000"
+
+# Resource requirements
+resources:
+  cpu: "1"
+  memory: "512Mi"
+
+# Optional: Set a custom description
+# description: "Weather MCP Server providing comprehensive weather data via FastMCP"
