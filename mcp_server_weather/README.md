@@ -58,6 +58,13 @@ Intelligent umbrella recommendation based on precipitation analysis.
 * Reasoning behind the recommendation
 * Weather summary for the specified date
 
+**Decision Logic:**
+* **High Confidence (Umbrella Needed)**: Precipitation probability ≥ 70%
+* **Medium Confidence (Umbrella Needed)**: Precipitation probability ≥ 40%
+* **Additional Triggers**:
+  * Expected precipitation > 0.1 inches
+  * Rain/snow weather codes: 51, 53, 55, 61, 63, 65, 80, 81, 82
+
 **Example:**
 ```json
 {"location": "London", "date": "2024-12-25"}
@@ -76,6 +83,32 @@ Assess travel conditions and provide recommendations.
 * Contributing factors (temperature, precipitation, wind, visibility)
 * Summary and detailed weather conditions
 
+**Decision Logic (Scoring System):**
+Starts at 100 points, deductions applied for adverse conditions:
+
+* **Temperature Penalties:**
+  * Extreme: High > 95°F or Low < 20°F → -30 points
+  * Uncomfortable: High > 85°F or Low < 32°F → -15 points
+
+* **Precipitation Penalties:**
+  * High chance (≥ 70%) → -25 points
+  * Moderate chance (≥ 40%) → -10 points
+
+* **Wind Penalties:**
+  * Very windy (gusts > 40 mph) → -20 points
+  * Windy (gusts > 25 mph) → -10 points
+
+* **Severe Weather Penalties:**
+  * Thunderstorms (codes: 95, 96, 99) → -30 points
+  * Heavy snow (codes: 71, 73, 75, 85, 86) → -25 points
+
+* **Final Ratings:**
+  * ≥ 80: Excellent
+  * ≥ 60: Good
+  * ≥ 40: Fair
+  * ≥ 20: Poor
+  * < 20: Not Recommended
+
 **Example:**
 ```json
 {"location": "Paris, France", "date": "2024-12-31"}
@@ -92,6 +125,23 @@ Detect and report potential severe weather conditions.
 * Severity levels (high/medium)
 * Types of alerts: extreme temperatures, heavy precipitation, high winds, severe weather codes
 * Date-organized alert summaries
+
+**Detection Thresholds:**
+
+* **Temperature Alerts:**
+  * Extreme Heat (High Severity): High > 100°F
+  * Extreme Cold (High Severity): Low < 10°F
+
+* **Precipitation Alerts:**
+  * Heavy Precipitation (Medium Severity): Total > 2.0 inches
+
+* **Wind Alerts:**
+  * High Wind (High Severity): Gusts > 50 mph
+  * Wind Advisory (Medium Severity): Gusts > 35 mph
+
+* **Weather Pattern Alerts:**
+  * Thunderstorm (High Severity): Weather codes 95, 96, 99
+  * Heavy Snow (High Severity): Weather codes 75, 85, 86
 
 **Example:**
 ```json
